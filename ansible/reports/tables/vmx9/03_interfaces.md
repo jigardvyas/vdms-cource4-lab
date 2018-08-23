@@ -1,26 +1,3 @@
-## Device  vmx9
-
-| Device Facts |  Values      |
-|--------------|--------------|
-|Hostname  | vmx9 |
-|FQDN | vmx9.ntc.com |
-|Model  | VMX |
-|OS Version | 15.1F4.15 |
-|Serial Number | VMXd2 |
-|Vendor  | Juniper |
----
-| Hostname | Local Interface | Neighbor | Neighbor Interface |
-|----------|-----------------|----------|--------------------|
-vmx9 | ge-0/0/2 | vmx8 | 519 |
-vmx9 | ge-0/0/1 | vmx7 | 518 |
-vmx9 | fxp0 | vmx8 | 1 |
-vmx9 | fxp0 | vmx7 | 1 |
-vmx9 | fxp0 | csr2 | Gi1 |
-vmx9 | fxp0 | eos-leaf2 | Management1 |
-vmx9 | fxp0 | eos-spine2 | Management1 |
-vmx9 | fxp0 | eos-leaf1 | Management1 |
-vmx9 | fxp0 | eos-spine1 | Management1 |
----
 
 ## Interface Summary:
 

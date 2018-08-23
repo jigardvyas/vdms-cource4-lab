@@ -11,9 +11,12 @@
         username: '{{ ansible_user }}'
         dev_os: '{{ ansible_network_os }}'
         password: '{{ ansible_ssh_pass }}'
-
+      valid_interfaces:
+        - ge
+        - lo
+        - fx
     tasks:
-
+           
       - name: ENSURE DIRECTORY EXISTS
         file:
           path: ./reports/tables/{{ inventory_hostname }}
@@ -55,6 +58,23 @@
           dest: ./reports/tables/{{ inventory_hostname }}/02_lldp.md
         tags: lldp
 
+      - name: GATHER INTERFACE FACTS
+        napalm_get_facts:
+          provider: "{{ napalm_connection_detail }}"
+          filter: ['interfaces', 'interfaces_ip']
+        register: interface_data
+
+      - name: PRINT INTERFACE FACTS
+        debug:
+          var: interface_data
+
+      - name: GENERATE REPORT FOR INTERFACES
+        template:
+          src: interfaces-table.j2
+          dest: ./reports/tables/{{ inventory_hostname }}/03_interfaces.md
+        tags: interfaces
+
+
       - name: CREATE DEVICE SUMMARY REPORT
         assemble:
           src: ./reports/tables/{{ inventory_hostname}}/
@@ -68,3 +88,37 @@
           dest: ./reports/master-tables.md
           delimiter: "______________"
         tags: summary
+
+  - name: GENERATE INTERFACES REPORTS
+    hosts: vmx
+    connection: local
+    gather_facts: no
+    tags: interfaces
+
+    vars:
+      napalm_connection_detail:
+        hostname: '{{ inventory_hostname }}'
+        username: '{{ ansible_user }}'
+        dev_os: '{{ ansible_network_os }}'
+        password: '{{ ansible_ssh_pass }}'
+      valid_interfaces:
+        - ge
+        - lo
+        - fx
+        
+    tasks:
+      - name: GATHER INTERFACE FACTS
+        napalm_get_facts:
+          provider: "{{ napalm_connection_detail }}"
+          filter: ['interfaces', 'interfaces_ip']
+        register: interface_data
+
+      - name: PRINT INTERFACE FACTS
+        debug:
+          var: interface_data
+
+      - name: GENERATE REPORT FOR INTERFACES
+        template:
+          src: interfaces-table.j2
+          dest: ./reports/{{ inventory_hostname }}-interfaces.md
+        tags: interfaces

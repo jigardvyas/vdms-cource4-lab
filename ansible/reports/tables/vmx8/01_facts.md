@@ -6,5 +6,5 @@
 |FQDN | vmx8.ntc.com |
 |Model  | VMX |
 |OS Version | 15.1F4.15 |
-|Serial Number | VMX3e |
+|Serial Number | VMXe8 |
 |Vendor  | Juniper |

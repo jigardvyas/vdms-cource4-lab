@@ -6,5 +6,5 @@
 |FQDN | vmx9.ntc.com |
 |Model  | VMX |
 |OS Version | 15.1F4.15 |
-|Serial Number | VMX77 |
+|Serial Number | VMXd2 |
 |Vendor  | Juniper |
