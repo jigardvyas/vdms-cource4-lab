@@ -1,0 +1,121 @@
+ntc@ntc:ansible (master)$ tree
+.
+├── 02-snmp.yml
+├── 03-snmp-baseline.yml
+├── 04-snmp-audit-remediate.yml
+├── 05-loopbacks.yml
+├── 06-snmp-regional.yml
+├── 07-patterns.yml
+├── 08-facts-and-groups.yml
+├── 09-automate-cached-facts.yml
+├── 10-generate-snmp.yml
+├── 11-generate-routes.yml
+├── 12-generate-vlans.yml
+├── configs
+│   ├── snmp
+│   │   ├── lax-bb01.conf
+│   │   ├── lax-edge01.conf
+│   │   └── lax-edge02.conf
+│   ├── static-routes
+│   │   ├── lax-bb01.conf
+│   │   ├── lax-edge01.conf
+│   │   └── lax-edge02.conf
+│   ├── vlans
+│   │   ├── lax-bb01.conf
+│   │   ├── lax-edge01.conf
+│   │   └── lax-edge02.conf
+│   ├── vmx7
+│   │   ├── partials
+│   │   │   ├── 01_static.conf
+│   │   │   ├── 02_interfaces.conf
+│   │   │   ├── 03_snmp.conf
+│   │   │   ├── 04_routing.conf
+│   │   │   └── 05_protocols.conf
+│   │   └── vmx7.conf
+│   ├── vmx8
+│   │   ├── partials
+│   │   │   ├── 01_static.conf
+│   │   │   ├── 02_interfaces.conf
+│   │   │   ├── 03_snmp.conf
+│   │   │   ├── 04_routing.conf
+│   │   │   └── 05_protocols.conf
+│   │   └── vmx8.conf
+│   └── vmx9
+│       ├── partials
+│       │   ├── 01_static.conf
+│       │   ├── 02_interfaces.conf
+│       │   ├── 03_snmp.conf
+│       │   ├── 04_routing.conf
+│       │   └── 05_protocols.conf
+│       └── vmx9.conf
+├── diffs
+│   ├── vmx7.diffs
+│   ├── vmx8.diffs
+│   └── vmx9.diffs
+├── generate-reports.yml
+├── generate-tables.yml
+├── group_vars
+│   ├── all.yml
+│   ├── lax.yml
+│   ├── london.yml
+│   ├── nyc.yml
+│   ├── singapore.yml
+│   └── vmx.yml
+├── host_vars
+│   ├── lax-bb01.yml
+│   ├── lax-edge01.yml
+│   ├── lax-edge02.yml
+│   ├── vmx7.yml
+│   ├── vmx8.yml
+│   └── vmx9.yml
+├── inventory
+├── juniper-build.yml
+├── reports
+│   ├── master-all.txt
+│   ├── master-tables.md
+│   ├── summary
+│   │   ├── tables
+│   │   │   ├── vmx7.md
+│   │   │   ├── vmx8.md
+│   │   │   └── vmx9.md
+│   │   ├── vmx7.txt
+│   │   ├── vmx8.txt
+│   │   └── vmx9.txt
+│   ├── tables
+│   │   ├── vmx7
+│   │   │   ├── 01_facts.md
+│   │   │   └── 02_lldp.md
+│   │   ├── vmx8
+│   │   │   ├── 01_facts.md
+│   │   │   └── 02_lldp.md
+│   │   └── vmx9
+│   │       ├── 01_facts.md
+│   │       └── 02_lldp.md
+│   ├── vmx7
+│   │   ├── 01_facts.txt
+│   │   └── 02_lldp.txt
+│   ├── vmx8
+│   │   ├── 01_facts.txt
+│   │   └── 02_lldp.txt
+│   └── vmx9
+│       ├── 01_facts.txt
+│       └── 02_lldp.txt
+├── summary
+│   └── tables
+└── templates
+    ├── 01_static.j2
+    ├── 02_interfaces.j2
+    ├── 03_snmp.j2
+    ├── 04_routing.j2
+    ├── 05_protocols.j2
+    ├── facts.j2
+    ├── facts-table.j2
+    ├── lldp.j2
+    ├── lldp-table.j2
+    ├── routes.j2
+    ├── snmp.j2
+    ├── static.j2
+    └── vlans.j2
+
+26 directories, 90 files
+ntc@ntc:ansible (master)$
