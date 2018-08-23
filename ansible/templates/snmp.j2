@@ -1,0 +1,66 @@
+SNMP CONFIG EXAMPLE 1
+
+set snmp location {{ snmp_location }}
+set snmp contact {{ snmp_contact }}
+set snmp community {{ snmp_ro }} authorization read-only
+set snmp community {{ snmp_rw }} authorization read-write
+
+SNMP CONFIG EXAMPLE 2
+
+set snmp location {{ snmp_location }}
+set snmp contact {{ snmp_contact }}
+{% for ro in snmp_ro_task2 %}
+set snmp community {{ ro }} authorization read-only
+{% endfor %}
+{% for rw in snmp_rw_task2 %}
+set snmp community {{ rw }} authorization read-write
+{% endfor %}
+
+SNMP CONFIG EXAMPLE 3
+
+set snmp location {{ snmp_location }}
+set snmp contact {{ snmp_contact }}
+{% for comm_string in snmp_comm_strings_task3 %}
+set snmp community {{ comm_string.community }} authorization {{ comm_string.type }}
+{% endfor %}
+
+SNMP CONFIG EXAMPLE 4
+
+set snmp location {{ snmp_location }}
+set snmp contact {{ snmp_contact }}
+{% for comm_string in snmp_comm_strings_task4 %}
+{% if comm_string.type == "ro" %}
+{% set comm_type = "read-only" %}
+{% elif comm_string.type == "rw" %}
+{% set comm_type = "read-write" %}
+{% endif %}
+set snmp community {{ comm_string.community }} authorization {{ comm_type }}
+{% endfor %}
+
+SNMP CONFIG EXAMPLE 5
+
+set snmp location {{ snmp_task5.location }}
+set snmp contact {{ snmp_task5.contact }}
+{% for comm_string in snmp_task5.comm_strings %}
+set snmp community {{ comm_string.community }} authorization {{ comm_string.type }}
+{% endfor %}
+
+SNMP CONFIG EXAMPLE 6
+
+
+set snmp location {{ snmp_task6.location }}
+set snmp contact {{ snmp_task6.contact }}
+{% for comm_string, comm_type in snmp_task6['comm_strings'].items() %}
+set snmp community {{ comm_string }} authorization {{ comm_type }}
+{% endfor %}
+
+SNMP CONFIG EXAMPLE 7
+
+set snmp location {{ snmp_task7.location }}
+set snmp contact {{ snmp_task7.contact }}
+{% for comm_string, snmp_config in snmp_task7['comm_strings'].items() %}
+set snmp community {{ comm_string }} authorization {{ snmp_config.type }}
+{% for client in snmp_config['clients'] %}
+set snmp community {{ comm_string }} clients {{ client }}
+{% endfor %}
+{% endfor %}

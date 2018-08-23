@@ -1,0 +1,103 @@
+---
+
+  - name: AUTOMATE ALL DEVICES IN NYC AND LAX
+    hosts: nyc,lax
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+  
+  - name: AUTOMATE ALL DEVICES IN NYC AND LAX
+    hosts:
+      - nyc 
+      - lax
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+  - name: AUTOMATE ALL DEVICES IN NYC EXCEPT THE BACKBONE DEVICES
+    hosts: nyc:!nyc-bb
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+  - name: AUTOMATE ALL NYC EDGE ROUTERS EXCEPT nyc-edge01
+    hosts: nyc-edge:!nyc-edge01
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+  - name: AUTOMATE ALL PRODUCTION ROUTERS IN THE US 
+    hosts: us:&prod 
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+  - name: AUTOMATE ALL PRIMARY EDGE ROUTERS IN LAX AND NYC (ending with 01)
+    hosts: ~(lax|nyc)-edge01
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+  - name: AUTOMATE ALL BACKBONE DEVICES 
+    hosts: ~(\w+)-bb(\d+)
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+  - name: AUTOMATE ALL PRODUCTION BACKBONE ROUTERS IN THE US 
+    hosts: us:&prod:&~(\w+)-bb(\d+)
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+  - name: AUTOMATE ALL EDGE ROUTERS EXCEPT sin-edge01
+    hosts: ~(\w+)-edge(\d+):!sin-edge01
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+  - name: AUTOMATE ALL DEVICES IN LAB NETWORK EXCEPT 10.250.1.8 AND 10.250.1.9
+    hosts: lab-network:!~10.250.1.[8-9]
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname

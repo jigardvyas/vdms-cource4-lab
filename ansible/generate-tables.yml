@@ -1,0 +1,70 @@
+---
+
+  - name: GATHER AND STORE FACTS
+    hosts: vmx
+    connection: local
+    gather_facts: no
+
+    vars:
+      napalm_connection_detail:
+        hostname: '{{ inventory_hostname }}'
+        username: '{{ ansible_user }}'
+        dev_os: '{{ ansible_network_os }}'
+        password: '{{ ansible_ssh_pass }}'
+
+    tasks:
+
+      - name: ENSURE DIRECTORY EXISTS
+        file:
+          path: ./reports/tables/{{ inventory_hostname }}
+          state: directory
+
+      - name: ENSURE DIRECTORY EXISTS
+        file:
+          path: ./summary/tables/
+          state: directory
+
+      - name: ENSURE DIRECTORY EXISTS
+        file:
+          path: ./reports/summary/tables/
+          state: directory
+
+      - name: GATHER GENERAL DEVICES FACTS
+        napalm_get_facts:
+          provider: "{{ napalm_connection_detail }}"
+          filter: ['facts']
+        register: fact_data
+        tags: facts
+
+      - name: GENERATE REPORT FOR GENERAL FACTS
+        template:
+          src: facts-table.j2
+          dest: ./reports/tables/{{ inventory_hostname }}/01_facts.md
+        tags: facts
+
+      - name: GATHER LLDP FACTS
+        napalm_get_facts:
+          provider: "{{ napalm_connection_detail }}"
+          filter: ['lldp_neighbors']
+        register: lldp_data
+        tags: lldp
+
+      - name: GENERATE REPORT FOR LLDP
+        template:
+          src: lldp-table.j2
+          dest: ./reports/tables/{{ inventory_hostname }}/02_lldp.md
+        tags: lldp
+
+      - name: CREATE DEVICE SUMMARY REPORT
+        assemble:
+          src: ./reports/tables/{{ inventory_hostname}}/
+          dest: ./reports/summary/tables/{{ inventory_hostname}}.md
+          delimiter: "---"
+        tags: summary
+
+      - name: CREATE DEVICE SUMMARY REPORT
+        assemble:
+          src: ./reports/summary/tables/
+          dest: ./reports/master-tables.md
+          delimiter: "______________"
+        tags: summary

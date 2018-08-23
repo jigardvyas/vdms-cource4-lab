@@ -1,0 +1,34 @@
+Device:  vmx8
+
+Hostname:        vmx8
+FQDN:            vmx8.ntc.com
+Model:           VMX
+OS Version:      15.1F4.15
+Serial Number:   VMX3e
+Vendor:          Juniper
+---
+Neighbors: {
+    "fxp0": [
+        {
+            "hostname": "vmx7", 
+            "port": "1"
+        }, 
+        {
+            "hostname": "vmx9", 
+            "port": "1"
+        }
+    ]
+}
+
+Neighbors:
+
+Local Device:       vmx8
+Local Interface:    fxp0
+Neighbor Device:    vmx7
+Neighbor Interface: 1 
+
+Local Device:       vmx8
+Local Interface:    fxp0
+Neighbor Device:    vmx9
+Neighbor Interface: 1 
+

@@ -1,0 +1,14 @@
+---
+
+  - name: Play 1 Task Challenge Lab
+    hosts: all
+    connection: netconf
+    gather_facts: no
+
+    tasks:
+
+      - name: Task Challenge Lab
+        junos_config:
+          lines:
+            - set snmp contact {{ contact_snmp }}
+            - set snmp location {{ location_snmp }}

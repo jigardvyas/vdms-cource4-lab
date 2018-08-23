@@ -1,0 +1,5 @@
+STATIC ROUTES OPTION 1
+
+{% for route in static_routes_1.v4 %}
+set routing-options static route {{ route.prefix }} next-hop {{ route.next_hop }} {% if route.get("admin_dist") %} metric {{ route.admin_dist }} {% endif %}
+{% endfor %}

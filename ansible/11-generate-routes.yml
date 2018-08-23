@@ -1,0 +1,15 @@
+---
+  - name: PLAY 1 - MANAGING ROUTES 
+    hosts: prod
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - file:
+          path: ./configs/static-routes
+          state: directory 
+
+      - template:
+          src: static.j2
+          dest: ./configs/static-routes/{{ inventory_hostname }}.conf

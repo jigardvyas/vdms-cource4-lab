@@ -1,0 +1,106 @@
+---
+mgmt_network: 100
+contact_snmp: UNKNOWN
+location_snmp: UNKNOWN
+
+snmp_ro: ntc
+snmp_rw: vdms-private
+snmp_location: LAX
+snmp_contact: Bob_Smith
+
+snmp_ro_task2:
+  - ntc 
+  - public 
+snmp_rw_task2:
+  - private 
+  - vdms-private
+
+
+
+snmp_comm_strings_task3:
+  - community: ntc 
+    type: read-only
+  - community: public 
+    type: read-only
+  - community: private
+    type: read-write
+  - community: vdms-private
+    type: read-write
+
+
+snmp_comm_strings_task4:
+  - community: ntc 
+    type: ro 
+  - community: public 
+    type: ro 
+  - community: private
+    type: rw 
+  - community: vdms-private
+    type: rw 
+
+snmp_task5:
+  location: LAX
+  contact: Bob_Smith
+  comm_strings:
+    - community: ntc 
+      type: read-only
+    - community: public 
+      type: read-only
+    - community: private
+      type: read-write
+    - community: vdms-private
+      type: read-write
+
+snmp_task6:
+  location: LAX
+  contact: Bob_Smith
+  comm_strings:
+    ntc: read-only
+    public: read-only 
+    private: read-write
+    vdms-private: read-write
+
+snmp_task7:
+  location: LAX
+  contact: Bob_Smith
+  comm_strings:
+    ntc:
+      type: read-only
+      clients:
+        - 10.0.0.0/8
+        - 192.168.1.0/24
+    vdms-public:
+      type: read-only
+      clients:
+        - 10.0.0.0/8
+        - 192.168.1.0/24
+
+static_routes_1:
+    v4:
+      - prefix: 192.168.0.0/24
+        next_hop: 54.1.1.2
+        admin_dist: 50
+      - prefix: 53.16.24.0/24
+        next_hop: 34.1.1.2
+      - prefix: 98.220.0.0/24
+        next_hop: 23.1.1.2
+        admin_dist: 50
+
+static_routes_2:
+    v4:
+      0.0.0.0/0:
+        next_hop: 51.1.1.2
+        admin_dist: 25
+      10.28.9.0/24:
+        next_hop: 10.28.11.1
+      10.18.9.0/24:
+        next_hop: 10.18.11.1
+
+
+vlans:
+  - id: 10
+    name: web_vlan
+  - id: 20
+    name: app_vlan
+  - id: 30
+    name: db_vlan

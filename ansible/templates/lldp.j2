@@ -1,0 +1,13 @@
+Neighbors: {{ napalm_lldp_neighbors | to_nice_json }}
+
+Neighbors:
+
+{% for interface, neighbors in napalm_lldp_neighbors.items() %}
+{% for neighbor in neighbors %}
+Local Device:       {{ inventory_hostname }}
+Local Interface:    {{ interface }}
+Neighbor Device:    {{ neighbor.hostname.split('.')[0] }}
+Neighbor Interface: {{ neighbor.port }} 
+
+{% endfor %}
+{% endfor %}

@@ -1,0 +1,15 @@
+---
+  - name: PLAY 1 - MANAGING VLANS 
+    hosts: prod
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - file:
+          path: ./configs/vlans
+          state: directory 
+
+      - template:
+          src: vlans.j2
+          dest: ./configs/vlans/{{ inventory_hostname }}.conf

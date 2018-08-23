@@ -1,0 +1,12 @@
+---
+  - name: MANAGE LOOPBACKS
+    hosts: prod
+    connection: netconf
+    gather_facts: no
+
+    tasks:
+
+      - name: CONFIGURE LOOPBACK INTERFACE
+        junos_config:
+          lines:
+            - set interfaces lo0 unit 0 family inet address 10.{{ site_id }}.{{ mgmt_network }}.{{ node_id }}/32

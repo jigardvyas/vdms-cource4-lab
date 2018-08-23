@@ -1,0 +1,41 @@
+---
+  - name: PLAY 1 - MANAGING SNMP 
+    hosts: lax-bb01,lax-edge01
+    connection: netconf
+    gather_facts: no
+    tags: play1
+
+    tasks:
+
+      - name: TASK 1 in PLAY 1 - ENSURE BASELINE RO STRINGS EXIST
+        junos_config:
+          lines:
+            - set snmp community ntcvdms authorization read-only
+            - set policy-options prefix-list MONITORING 10.0.0.0/24
+            - set snmp community ntcvdms client-list-name MONITORING
+
+      - name: TEST BASELINE RO STRINGS 
+        snmp_device_version:
+          community: ntcvdms 
+          version: 2c
+          host: "{{ inventory_hostname }}"
+
+
+  - name: PLAY 2 - MANAGING SNMP 
+    hosts: lax-edge02
+    connection: netconf
+    gather_facts: no
+
+    tasks:
+
+      - name: ENSURE PROPER CLIENT SOURCES EXISTS FOR SNMP
+        junos_config:
+          lines:
+            - set snmp community ntcvdms clients 104.148.221.5/32
+            - set snmp community ntcvdms clients 10.0.0.0/8
+
+      - name: TEST BASELINE RO STRINGS 
+        snmp_device_version:
+          community: ntcvdms 
+          version: 2c
+          host: "{{ inventory_hostname }}"

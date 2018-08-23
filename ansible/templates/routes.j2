@@ -1,0 +1,14 @@
+STATIC ROUTES OPTION 1
+
+{% for route in static_routes_1.v4 %}
+set routing-options static route {{ route.prefix }} next-hop {{ route.next_hop }} {% if route.get("admin_dist") %} metric {{ route.admin_dist }} {% endif %}
+
+{% endfor %}
+
+
+STATIC ROUTES OPTION 2
+
+{% for prefix, route_data in static_routes_2.v4.items() %}
+set routing-option static route {{ prefix }} next_hop {{ route_data["next_hop"] }} {% if route_data.get("admin_dist") %} metric {{ route_data["admin_dist"] }} {% endif %}
+
+{% endfor %}

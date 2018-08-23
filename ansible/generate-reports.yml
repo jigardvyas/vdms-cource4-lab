@@ -1,0 +1,82 @@
+---
+
+  - name: GATHER AND STORE FACTS
+    hosts: vmx
+    connection: local
+    gather_facts: no
+
+    vars:
+      napalm_connection_detail:
+        hostname: '{{ inventory_hostname }}'
+        username: '{{ ansible_user }}'
+        dev_os: '{{ ansible_network_os }}'
+        password: '{{ ansible_ssh_pass }}'
+
+    tasks:
+
+      - name: ENSURE DIRECTORY EXISTS
+        file:
+          path: ./reports/{{ inventory_hostname }}
+          state: directory
+
+      - name: GATHER GENERAL DEVICES FACTS
+        napalm_get_facts:
+          provider: "{{ napalm_connection_detail }}"
+          filter: ['facts']
+        register: fact_data
+        tags: facts
+
+      - name: PRINT GENERAL FACTS
+        debug:
+          var: fact_data
+        tags: facts
+
+      - name: GENERATE REPORT FOR GENERAL FACTS
+        template:
+          src: facts.j2
+          dest: ./reports/{{ inventory_hostname }}/01_facts.txt
+        tags: facts
+
+      - name: GATHER LLDP FACTS
+        napalm_get_facts:
+          provider: "{{ napalm_connection_detail }}"
+          filter: ['lldp_neighbors']
+        register: lldp_data
+        tags: lldp
+
+      - name: PRINT LLDP FACTS
+        debug:
+          var: lldp_data
+        tags: lldp
+
+      - name: GENERATE REPORT FOR LLDP
+        template:
+          src: lldp.j2
+          dest: ./reports/{{ inventory_hostname }}/02_lldp.txt
+        tags: lldp
+
+      - name: ENSURE SUMMARY DIRECTORY EXISTS
+        file:
+          path: ./reports/summary
+          state: directory
+        tags: summary
+
+      - name: ENSURE SUMMARY DIRECTORY EXISTS
+        file:
+          path: ./reports/summary
+          state: directory
+        tags: summary
+
+      - name: CREATE DEVICE SUMMARY REPORT
+        assemble:
+          src: ./reports/{{ inventory_hostname}}/
+          dest: ./reports/summary/{{ inventory_hostname}}.txt
+          delimiter: "---"
+        tags: summary
+
+      - name: CREATE DEVICE SUMMARY REPORT
+        assemble:
+          src: ./reports/summary
+          dest: ./reports/master-all.txt
+          delimiter: "___________________"
+        tags: summary

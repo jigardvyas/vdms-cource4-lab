@@ -1,0 +1,45 @@
+---
+  - name: PLAY 1 - FIX ALL SNMP ACCESS
+    hosts: lax-edge02
+    connection: netconf
+    gather_facts: no
+
+    tasks:
+
+      - name: GATHER CONFIG IN SET NOTATIONS
+        junos_command:
+          commands: show configuration 
+          display: set 
+        register: config
+
+      - debug:
+          var: config
+          verbosity: 1
+
+      - name: GET AUTH SNMP CLIENTS 
+        set_fact:
+          configured_clients: "{{ config['stdout'][0] | regex_findall('set snmp community \\S+ clients (\\S+)') }}"
+
+      - name: ENSURE PROPER CLIENT SOURCES EXISTS FOR SNMP
+        junos_config:
+          lines:
+            - set policy-options prefix-list MONITORING {{ item }}
+        loop: "{{ configured_clients }}"
+
+
+      - name: TASK 1 in PLAY 1 - ENSURE BASELINE RO STRINGS EXIST
+        junos_config:
+          lines:
+            - set snmp community ntcvdms client-list-name MONITORING
+
+      - name: REMOVE LEGACY CONFIG
+        junos_config:
+          lines:
+            - delete snmp community ntcvdms clients {{ item }}
+        loop: "{{ configured_clients }}"
+
+      - name: TEST BASELINE RO STRINGS 
+        snmp_device_version:
+          community: ntcvdms 
+          version: 2c
+          host: "{{ inventory_hostname }}"

@@ -1,0 +1,30 @@
+---
+  - name: PLAY 1 - Creating Directories
+    hosts: localhost
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - file:
+          path: ./templates
+          state: directory
+
+      - file:
+          path: ./configs/snmp
+          state: directory 
+
+      - file:
+          path: ./group_vars
+          state: directory
+
+  - name: PLAY 2 - MANAGING SNMP 
+    hosts: prod
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - template:
+          src: snmp.j2
+          dest: ./configs/snmp/{{ inventory_hostname }}.conf

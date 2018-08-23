@@ -1,0 +1,34 @@
+Device:  vmx7
+
+Hostname:        vmx7
+FQDN:            vmx7.ntc.com
+Model:           VMX
+OS Version:      15.1F4.15
+Serial Number:   VMXa2
+Vendor:          Juniper
+---
+Neighbors: {
+    "fxp0": [
+        {
+            "hostname": "vmx9", 
+            "port": "1"
+        }, 
+        {
+            "hostname": "vmx8", 
+            "port": "1"
+        }
+    ]
+}
+
+Neighbors:
+
+Local Device:       vmx7
+Local Interface:    fxp0
+Neighbor Device:    vmx9
+Neighbor Interface: 1 
+
+Local Device:       vmx7
+Local Interface:    fxp0
+Neighbor Device:    vmx8
+Neighbor Interface: 1 
+

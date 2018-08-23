@@ -1,0 +1,66 @@
+---
+
+
+  - name: GATHER FACTS 
+    hosts: lax
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: ansible_net_version
+        tags: debug
+
+      - name: GENERATE GROUPS BASED ON OS VERSION 
+        group_by:
+          key: target_{{ ansible_net_version }}
+
+
+  - name: GATHER FACTS 
+    hosts: target_15.1F4.15
+    connection: local 
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+
+  - name: GATHER FACTS 
+    hosts: ~target_(15.1F4.15|15.1F4.18)
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname
+
+
+  - name: GATHER FACTS 
+    hosts: lax
+    connection: local
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: ansible_net_version
+
+      - name: GENERATE GROUPS BASED ON OS VERSION 
+        group_by:
+          key: target_{{ ansible_net_model }}_{{ ansible_net_version }}
+
+
+
+  - name: GATHER FACTS 
+    hosts: ~target_vmx_(15.1F4.15|15.1F4.18)
+    connection: local 
+    gather_facts: no
+
+    tasks:
+
+      - debug:
+          var: inventory_hostname

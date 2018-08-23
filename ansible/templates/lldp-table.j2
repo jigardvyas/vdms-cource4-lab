@@ -1,0 +1,7 @@
+| Hostname | Local Interface | Neighbor | Neighbor Interface |
+|----------|-----------------|----------|--------------------|
+{% for interface, neighbors in napalm_lldp_neighbors.items() %}
+{% for neighbor in neighbors %}
+{{ inventory_hostname }} | {{ interface }} | {{ neighbor.hostname.split('.')[0] }} | {{ neighbor.port }} |
+{% endfor %}
+{% endfor %}

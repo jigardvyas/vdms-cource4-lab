@@ -1,0 +1,11 @@
+{{ vlans | to_nice_json }}
+
+{% for vlan in vlans %}
+{{ vlan }}
+vlan {{ vlan.id }}
+{% endfor %}
+
+{% for vlan in vlans %}
+vlan {{ vlan.id }}
+  name {{ vlan.name }}
+{% endfor %}

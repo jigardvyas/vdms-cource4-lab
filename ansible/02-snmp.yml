@@ -1,0 +1,54 @@
+---
+  - name: PLAY 1 - MANAGING SNMP 
+    hosts: prod
+    connection: netconf
+    gather_facts: no
+
+    vars:
+      ro_strings:
+        - public
+        - vdmsvdms
+
+    tasks:
+
+      - name: TASK 1 in PLAY 1 - ENSURE BASELINE RO STRINGS EXIST
+        junos_config:
+          lines:
+            - set snmp community public authorization read-only
+            - set snmp community vdmsvdms authorization read-only
+
+      - name: TEST BASELINE RO STRINGS 
+        snmp_device_version:
+          community: "{{ item }}"
+          version: 2c
+          host: "{{ inventory_hostname }}"
+        loop:
+          - public 
+          - vdmsvdms
+
+
+      - name: TASK 1 in PLAY 1 - ENSURE BASELINE RO STRINGS EXIST
+        junos_config:
+          lines:
+            - set snmp community {{ item }} authorization read-only
+        loop: "{{ ro_strings }}"
+
+      - name: TEST BASELINE RO STRINGS 
+        snmp_device_version:
+          community: "{{ item }}"
+          version: 2c
+          host: "{{ inventory_hostname }}"
+        loop: "{{ ro_strings }}"
+
+
+      - name: ENSURE PROPER CLIENT SOURCES EXISTS FOR vdmsvdms 
+        junos_config:
+          lines:
+            - set snmp community vdmsvdms clients 10.0.0.0/8
+
+      - name: ENSURE SNMP STILL WORKS AS EXPECTED 
+        snmp_device_version:
+          community: "{{ item }}"
+          version: 2c
+          host: "{{ inventory_hostname }}"
+        loop: "{{ ro_strings }}"
